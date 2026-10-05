@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "QR-Based Clinic Appointment & Queue Management System",
   "scripts": {
-    "install:all": "npm --prefix server install && npm --prefix client install",
+    "install:all": "npm --prefix server install && npm --prefix client install --include=dev",
     "dev:server": "npm --prefix server start",
     "dev:client": "npm --prefix client run dev",
     "dev": "node dev-runner.js",

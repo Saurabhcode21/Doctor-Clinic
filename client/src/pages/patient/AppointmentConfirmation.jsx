@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { 
-  CheckCircle, 
-  Clock, 
-  Calendar, 
-  User, 
-  Phone, 
-  AlertTriangle, 
-  ArrowRight, 
-  Share2, 
-  Printer, 
+import {
+  CheckCircle,
+  Clock,
+  Calendar,
+  User,
+  Phone,
+  AlertTriangle,
+  ArrowRight,
+  Share2,
+  Printer,
   Stethoscope,
   Sparkles,
   Wallet,
-  ShieldCheck,
-  MessageCircle
+  ShieldCheck
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useLanguage } from '../../context/LanguageContext';
@@ -51,25 +50,6 @@ export default function AppointmentConfirmation() {
     window.print();
   };
 
-  const handleWhatsAppShare = () => {
-    if (!appointment) return;
-    const origin = window.location.origin;
-    const msg = `🏥 *Sanjeevani Clinic - OPD Appointment Pass*\n\n` +
-      `🎫 *Token Number: ${appointment.tokenNumber}*\n` +
-      `👤 Patient: *${appointment.patientName}* (${appointment.age} yrs)\n` +
-      `📅 Date: ${new Date(appointment.date).toLocaleDateString('en-IN')}\n` +
-      `⏰ Time Slot: *${appointment.timeSlot}*\n` +
-      `💳 Payment: ${appointment.paymentStatus === 'PAID' ? 'PAID ✅' : 'Pay at Clinic Counter (₹500)'}\n\n` +
-      `🔴 *Track Live OPD Queue on Mobile:*\n${origin}/queue?token=${appointment.tokenNumber}\n\n` +
-      `_Please show this token pass at the clinic reception desk._`;
-
-    const cleanMobile = appointment.mobile ? appointment.mobile.replace(/\D/g, '').slice(-10) : '';
-    const waUrl = cleanMobile 
-      ? `https://wa.me/91${cleanMobile}?text=${encodeURIComponent(msg)}`
-      : `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
-    window.open(waUrl, '_blank');
-  };
-
   if (loading) {
     return (
       <div className="min-h-[50vh] flex items-center justify-center text-slate-500 text-sm">
@@ -94,7 +74,7 @@ export default function AppointmentConfirmation() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-4 sm:py-6">
-      
+
       {/* Success Badge */}
       <div className="text-center mb-5">
         <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2 shadow-inner ring-4 ring-emerald-50">
@@ -110,7 +90,7 @@ export default function AppointmentConfirmation() {
 
       {/* Main Token Pass Slip */}
       <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden relative">
-        
+
         {/* Token Header Banner */}
         <div className="bg-gradient-to-r from-brand-700 to-teal-600 p-6 text-white text-center relative">
           <p className="text-xs uppercase font-extrabold tracking-widest text-teal-200">
@@ -133,7 +113,7 @@ export default function AppointmentConfirmation() {
 
         {/* Appointment Details Body */}
         <div className="p-6 space-y-4">
-          
+
           {/* Patient & Doctor */}
           <div className="grid grid-cols-2 gap-3 text-xs">
             <div>
@@ -163,11 +143,10 @@ export default function AppointmentConfirmation() {
           </div>
 
           {/* Payment Status Box */}
-          <div className={`p-3.5 rounded-xl border flex items-start gap-3 ${
-            isPaid 
-              ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900' 
+          <div className={`p-3.5 rounded-xl border flex items-start gap-3 ${isPaid
+              ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900'
               : 'bg-amber-50/80 border-amber-200 text-amber-900'
-          }`}>
+            }`}>
             {isPaid ? (
               <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
             ) : (
@@ -179,8 +158,8 @@ export default function AppointmentConfirmation() {
                 <span className="font-extrabold">₹{appointment.amount || 500}</span>
               </p>
               <p className="text-[11px] mt-0.5 opacity-90 leading-tight">
-                {isPaid 
-                  ? 'Consultation fee paid online. Direct entry when token called.' 
+                {isPaid
+                  ? 'Consultation fee paid online. Direct entry when token called.'
                   : 'Please pay ₹500 at the reception desk with Cash or UPI before meeting the doctor.'}
               </p>
             </div>
@@ -196,17 +175,6 @@ export default function AppointmentConfirmation() {
 
         </div>
 
-        {/* WhatsApp Pass Button */}
-        <div className="px-6 pb-3">
-          <button
-            onClick={handleWhatsAppShare}
-            className="w-full py-3 px-4 rounded-2xl bg-[#25D366] hover:bg-[#20bd5a] active:scale-[0.99] text-white font-extrabold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
-          >
-            <MessageCircle className="w-4 h-4 fill-white" />
-            <span>WhatsApp Par Token Slip Save Karein</span>
-          </button>
-        </div>
-
         {/* Slip Actions */}
         <div className="bg-slate-50 px-6 py-4 border-t border-slate-200/80 flex items-center justify-between gap-3">
           <button
@@ -216,7 +184,7 @@ export default function AppointmentConfirmation() {
             <Printer className="w-4 h-4" />
             <span>Print Pass</span>
           </button>
-          
+
           <Link
             to={`/queue?token=${appointment.tokenNumber}`}
             className="flex-1 py-2.5 px-4 rounded-xl bg-brand-600 hover:bg-brand-700 active:scale-[0.99] text-white font-bold text-xs shadow-md shadow-brand-500/25 flex items-center justify-center gap-1.5 transition-all text-center"
