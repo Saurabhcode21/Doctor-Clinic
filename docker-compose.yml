@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  clinic-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sanjeevani-clinic
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - JWT_SECRET=change_this_to_a_secure_random_key_in_production
+      - CORS_ORIGIN=*
+      - CLINIC_BASE_URL=https://clinic.yourdomain.com
+    volumes:
+      # Persist appointments, doctor settings, and queue data across restarts
+      - clinic-data:/app/server/data
+
+volumes:
+  clinic-data:
+    driver: local
